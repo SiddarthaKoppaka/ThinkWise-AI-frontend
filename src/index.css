@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+body {
+    @apply font-sans;
+    font-family: 'Manrope', sans-serif;
+    background-color: #fafafa;
+    @keyframes pulse-light {
+        0%, 100% { opacity: 0.8; }
+        50% { opacity: 1; }
+      }
+      
+  }
+  
