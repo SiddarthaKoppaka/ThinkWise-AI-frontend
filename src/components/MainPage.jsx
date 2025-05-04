@@ -37,6 +37,7 @@ export default function MainPage({ toggleSidebar }) {
 
   const navigate = useNavigate()
   const analyzeMutation = useAnalyzeCsv()
+  const isBusy = analyzeMutation.isLoading
 
   const handleAnalyze = () => {
     if (!file) {
