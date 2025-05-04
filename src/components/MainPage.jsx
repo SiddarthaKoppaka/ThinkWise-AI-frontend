@@ -62,7 +62,16 @@ export default function MainPage({ toggleSidebar }) {
       }
     )
   }
-
+  const handleEieChange = e => {
+    const newEie = Number(e.target.value)
+    setEie(newEie)
+    setRoi(100 - newEie)
+  }
+  const handleRoiChange = e => {
+    const newRoi = Number(e.target.value)
+    setRoi(newRoi)
+    setEie(100 - newRoi)
+  }
   // — Drag & drop CSV support —
   const onDrop = useCallback(e => {
     e.preventDefault()
@@ -122,31 +131,37 @@ export default function MainPage({ toggleSidebar }) {
             ))}
           </div>
 
-          {/* Sliders */}
-          <div className="mt-8 grid md:grid-cols-2 gap-6">
-            {[
-              { label: 'Effort of Estimation', value: eie, setter: setEie },
-              { label: 'Return On Investment', value: roi, setter: setRoi },
-            ].map(({ label, value, setter }) => (
-              <div key={label} className="bg-gray-100 p-4 rounded-lg">
-                <label className="block text-gray-700">
-                  {label} <span className="text-gray-500 text-sm">0–100</span>
-                </label>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={value}
-                  onChange={e => setter(+e.target.value)}
-                  className="w-full mt-2"
-                />
-                <p className="mt-1 text-gray-500 text-sm">
-                  {label.startsWith('Effort')
-                    ? `How much can you effort? (${value})`
-                    : `What's your expectation? (${value})`}
-                </p>
-              </div>
-            ))}
+          {/* Balanced Sliders */}
+          <div className="mt-8 flex flex-col md:flex-row gap-6">
+            <div className="flex-1 bg-gray-100 p-4 rounded-lg">
+              <label className="block text-gray-700 mb-2">
+                Effort of Estimation: <span className="font-semibold">{eie}%</span>
+              </label>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={eie}
+                onChange={handleEieChange}
+                className="w-full"
+                disabled={isBusy}
+              />
+            </div>
+
+            <div className="flex-1 bg-gray-100 p-4 rounded-lg">
+              <label className="block text-gray-700 mb-2">
+                Return On Investment: <span className="font-semibold">{roi}%</span>
+              </label>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={roi}
+                onChange={handleRoiChange}
+                className="w-full"
+                disabled={isBusy}
+              />
+            </div>
           </div>
 
           {/* BUNCH mode */}

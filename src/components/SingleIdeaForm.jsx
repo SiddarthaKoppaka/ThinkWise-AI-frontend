@@ -1,13 +1,16 @@
+// src/components/SingleIdeaForm.jsx
 import React, { useState } from 'react'
-import { IconLoader }     from '@tabler/icons-react'
+import { IconLoader } from '@tabler/icons-react'
 import { useAnalyzeSingle } from '../hooks/useAnalysis'
-import { useNavigate }      from 'react-router-dom'
+import { fetchIdeaById } from '../api/ideaService'
+import { useNavigate } from 'react-router-dom'
 
 export default function SingleIdeaForm({ roi, eie }) {
-  const [title, setTitle]         = useState('')
-  const [author, setAuthor]       = useState('')
-  const [category, setCategory]   = useState('')
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [category, setCategory] = useState('')
   const [description, setDescription] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
   const mutation = useAnalyzeSingle()
@@ -17,29 +20,35 @@ export default function SingleIdeaForm({ roi, eie }) {
       return alert('Title and description are required')
     }
 
-    const idea = { title, author, category, description }
+    const payload = { title, author, category, description }
+    setLoading(true)
+
+    // 1) send to analyze/single
     mutation.mutate(
-      { idea, roiWeight: roi/100, eieWeight: eie/100 },
+      { idea: payload, roiWeight: roi / 100, eieWeight: eie / 100 },
       {
-        onSuccess: ({ idea_id }) => {
-          navigate(
-            `/app/ideas/${idea_id}`, 
-            { state: { idea: { 
-                id: idea_id, title, description,
-                roi: Math.round(roi), eie: Math.round(eie),
-                score: null // detail page hook will fetch full doc
-            }}}  
-          )
+              onSuccess: async ({ id }) => {
+                  try {
+                    // now id === Mongo’s _id
+                    const fullIdea = await fetchIdeaById(id)
+                    navigate(`/app/ideas/${id}`, { state: { idea: fullIdea } })
+                  } catch (fetchErr) {
+                    console.error(fetchErr)
+                    alert(`Failed to load analyzed idea: ${fetchErr.message}`)
+                  } finally {
+                    setLoading(false)
+                  } 
         },
         onError: err => {
           console.error(err)
-          alert(`Analysis failed: ${err.response?.data?.detail || err.message}`)
+          alert(`Analysis failed: ${err.message}`)
+          setLoading(false)
         }
       }
     )
   }
 
-  const loading = mutation.isLoading
+  const isBusy = loading || mutation.isLoading
 
   return (
     <div className="mt-6 space-y-4">
@@ -49,7 +58,7 @@ export default function SingleIdeaForm({ roi, eie }) {
         value={title}
         onChange={e => setTitle(e.target.value)}
         className="w-full p-2 border rounded"
-        disabled={loading}
+        disabled={isBusy}
       />
       <input
         type="text"
@@ -57,7 +66,7 @@ export default function SingleIdeaForm({ roi, eie }) {
         value={author}
         onChange={e => setAuthor(e.target.value)}
         className="w-full p-2 border rounded"
-        disabled={loading}
+        disabled={isBusy}
       />
       <input
         type="text"
@@ -65,31 +74,33 @@ export default function SingleIdeaForm({ roi, eie }) {
         value={category}
         onChange={e => setCategory(e.target.value)}
         className="w-full p-2 border rounded"
-        disabled={loading}
+        disabled={isBusy}
       />
       <textarea
         placeholder="Description"
         value={description}
         onChange={e => setDescription(e.target.value)}
         className="w-full p-2 border rounded h-32"
-        disabled={loading}
+        disabled={isBusy}
       />
       <button
         onClick={handleSubmit}
-        disabled={loading}
+        disabled={isBusy}
         className={`
           w-full py-2 rounded font-medium transition
-          ${loading
+          ${isBusy
             ? 'bg-blue-400 text-white opacity-75 cursor-not-allowed'
             : 'bg-blue-600 text-white hover:bg-blue-700'}
         `}
       >
-        {loading
-          ? <>
-              <IconLoader className="animate-spin mr-2" />
-              Analyzing…
-            </>
-          : 'Analyze Idea'}
+        {isBusy ? (
+          <>
+            <IconLoader className="animate-spin mr-2" />
+            Processing…
+          </>
+        ) : (
+          'Analyze Idea'
+        )}
       </button>
     </div>
   )
