@@ -8,3 +8,10 @@ export function useAnalyzeCsv() {
       AnalysisService.analyzeCsv(file, roiWeight, eieWeight)
   )
 }
+
+export function useAnalyzeSingle() {
+  return useMutation(
+    ({ idea, roiWeight, eieWeight }) =>
+      AnalysisService.analyzeSingle(idea, roiWeight, eieWeight)
+  )
+}
