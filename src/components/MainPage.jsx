@@ -4,6 +4,8 @@ import { IconMenu2, IconLoader } from '@tabler/icons-react'
 import { useAnalyzeCsv } from '../hooks/useAnalysis'
 import { useCurrentUser, useLogout } from '../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
+import SingleIdeaForm from '../components/SingleIdeaForm'
+import { useAnalyzeSingle } from '../hooks/useAnalysis'
 
 export default function MainPage({ toggleSidebar }) {
   // — AUTH & LOGOUT —
@@ -197,9 +199,10 @@ export default function MainPage({ toggleSidebar }) {
 
           {/* SINGLE mode */}
           {mode === 'single' && (
-            <div className="mt-6 text-gray-500 italic">
-              Single-idea evaluation coming soon!
-            </div>
+            <SingleIdeaForm
+            roi={roi}
+            eie={eie}
+            />
           )}
         </div>
       </div>
