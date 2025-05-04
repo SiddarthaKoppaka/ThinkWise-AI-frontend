@@ -11,13 +11,19 @@ export default function SingleIdeaForm({ roi, eie }) {
   const [category, setCategory] = useState('')
   const [description, setDescription] = useState('')
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   const navigate = useNavigate()
   const mutation = useAnalyzeSingle()
 
   const handleSubmit = () => {
-    if (!title || !description) {
-      return alert('Title and description are required')
+    // Clear any previous error
+    setError(null)
+
+    // Validate inputs
+    if (!title.trim() || !description.trim()) {
+      setError('Title and description are required.')
+      return
     }
 
     const payload = { title, author, category, description }
@@ -27,21 +33,26 @@ export default function SingleIdeaForm({ roi, eie }) {
     mutation.mutate(
       { idea: payload, roiWeight: roi / 100, eieWeight: eie / 100 },
       {
-              onSuccess: async ({ id }) => {
-                  try {
-                    // now id === Mongo’s _id
-                    const fullIdea = await fetchIdeaById(id)
-                    navigate(`/app/ideas/${id}`, { state: { idea: fullIdea } })
-                  } catch (fetchErr) {
-                    console.error(fetchErr)
-                    alert(`Failed to load analyzed idea: ${fetchErr.message}`)
-                  } finally {
-                    setLoading(false)
-                  } 
+        onSuccess: async ({ id }) => {
+          try {
+            // 2) fetch the full idea by ID
+            const fullIdea = await fetchIdeaById(id)
+            // 3) navigate with the complete data
+            navigate(
+              `/app/ideas/${id}`,
+              { state: { idea: fullIdea } }
+            )
+          } catch (fetchErr) {
+            console.error(fetchErr)
+            setError(`Failed to load analyzed idea: ${fetchErr.message}`)
+          } finally {
+            setLoading(false)
+          }
         },
         onError: err => {
           console.error(err)
-          alert(`Analysis failed: ${err.message}`)
+          // Show inline error instead of alert
+          setError(`Analysis failed: ${err.message}`)
           setLoading(false)
         }
       }
@@ -83,14 +94,22 @@ export default function SingleIdeaForm({ roi, eie }) {
         className="w-full p-2 border rounded h-32"
         disabled={isBusy}
       />
+
+      {/* Inline error message */}
+      {error && (
+        <div className="text-red-600 text-sm mt-1">
+          {error}
+        </div>
+      )}
+
       <button
         onClick={handleSubmit}
         disabled={isBusy}
-        className={`
-          w-full py-2 rounded font-medium transition
-          ${isBusy
-            ? 'bg-blue-400 text-white opacity-75 cursor-not-allowed'
-            : 'bg-blue-600 text-white hover:bg-blue-700'}
+        className={
+          `w-full py-2 rounded font-medium transition \$
+            {isBusy
+              ? 'bg-blue-400 text-white opacity-75 cursor-not-allowed'
+              : 'bg-blue-600 text-white hover:bg-blue-700'}
         `}
       >
         {isBusy ? (
