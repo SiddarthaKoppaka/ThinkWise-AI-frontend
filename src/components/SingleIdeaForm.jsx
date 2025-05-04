@@ -12,32 +12,42 @@ export default function SingleIdeaForm({ roi, eie }) {
   const navigate = useNavigate()
   const mutation = useAnalyzeSingle()
 
-  const handleSubmit = () => {
-    if (!title || !description) {
-      return alert('Title and description are required')
-    }
-
-    const idea = { title, author, category, description }
-    mutation.mutate(
-      { idea, roiWeight: roi/100, eieWeight: eie/100 },
-      {
-        onSuccess: ({ idea_id }) => {
-          navigate(
-            `/app/ideas/${idea_id}`, 
-            { state: { idea: { 
-                id: idea_id, title, description,
-                roi: Math.round(roi), eie: Math.round(eie),
-                score: null // detail page hook will fetch full doc
-            }}}  
-          )
-        },
-        onError: err => {
-          console.error(err)
-          alert(`Analysis failed: ${err.response?.data?.detail || err.message}`)
-        }
-      }
-    )
+const handleSubmit = () => {
+  if (!title || !description) {
+    return alert('Title and description are required')
   }
+
+  const idea = { title, author, category, description }
+  mutation.mutate(
+    { idea, roiWeight: roi/100, eieWeight: eie/100 },
+    {
+      onSuccess: async ({ idea_id }) => {
+        try {
+          const filename = 'single_submission.json' // Or whatever your backend assigns
+          const result = await lookupIdeaByIdAndFilename(idea_id, filename)
+          const mongoId = result.idea._id
+
+          navigate(`/app/ideas/${mongoId}`, {
+            state: {
+              idea: {
+                ...result.idea,
+                roi: Math.round(roi),
+                eie: Math.round(eie),
+              }
+            }
+          })
+        } catch (err) {
+          console.error(err)
+          alert("Failed to lookup idea by idea_id and filename")
+        }
+      },
+      onError: err => {
+        console.error(err)
+        alert(`Analysis failed: ${err.response?.data?.detail || err.message}`)
+      }
+    }
+  )
+}
 
   const loading = mutation.isLoading
 
