@@ -172,6 +172,17 @@ export default function MainPage({ toggleSidebar }) {
 
           {/* BUNCH mode */}
           {mode === 'bunch' && (
+            {/* Instructional Alert */}
+    <div className="mt-6 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md shadow-sm">
+    <p className="font-medium">Required CSV Columns:</p>
+    <ul className="list-disc list-inside text-sm mt-2 space-y-1">
+      <li><strong>title</strong> – Name of the idea</li>
+      <li><strong>description</strong> – A short description of the idea</li>
+      <li><strong>category</strong> – The category or domain of the idea</li>
+      <li><strong>author</strong> – Creator or submitter of the idea</li>
+    </ul>
+    <p className="text-xs text-gray-600 mt-2">Ensure the header row matches these exactly.</p>
+  </div>
             <div
               onDrop={onDrop}
               onDragOver={e => e.preventDefault()}
@@ -194,7 +205,7 @@ export default function MainPage({ toggleSidebar }) {
                 htmlFor="csv-upload"
                 className="block text-center cursor-pointer text-gray-700"
               >
-                {file ? `📄 ${file.name}` : 'Click or drag CSV to upload'}
+                {file ? `${file.name}` : 'Click or drag CSV to upload'}
               </label>
 
               <button
