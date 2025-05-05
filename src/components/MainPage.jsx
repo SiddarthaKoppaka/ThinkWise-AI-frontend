@@ -172,6 +172,7 @@ export default function MainPage({ toggleSidebar }) {
 
           {/* BUNCH mode */}
           {mode === 'bunch' && (
+            <>
             {/* Instructional Alert */}
     <div className="mt-6 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md shadow-sm">
     <p className="font-medium">Required CSV Columns:</p>
@@ -227,6 +228,7 @@ export default function MainPage({ toggleSidebar }) {
                   : 'Analyze CSV'}
               </button>
             </div>
+            </>
           )}
 
           {/* SINGLE mode */}
