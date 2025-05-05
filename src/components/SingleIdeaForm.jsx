@@ -27,7 +27,7 @@ const handleSubmit = () => {
           const filename = 'Single' // Or whatever your backend assigns
           const result = await lookupIdeaByIdAndFilename(idea_id, filename)
           const mongoId = result.idea._id
-
+          console.log(result)
           navigate(`/app/ideas/${mongoId}`, {
             state: {
               idea: {
