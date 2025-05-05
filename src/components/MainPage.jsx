@@ -1,10 +1,11 @@
 // src/components/MainPage.jsx
-import React, { useState, useMemo, useCallback } from 'react'
+import React, { useState, useMemo, useCallback, useEffect } from 'react'
 import { IconMenu2, IconLoader } from '@tabler/icons-react'
 import { useAnalyzeCsv } from '../hooks/useAnalysis'
 import { useCurrentUser, useLogout } from '../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import SingleIdeaForm from '../components/SingleIdeaForm'
+import { motion } from 'framer-motion';
 import { useAnalyzeSingle } from '../hooks/useAnalysis'
 
 export default function MainPage({ toggleSidebar }) {
