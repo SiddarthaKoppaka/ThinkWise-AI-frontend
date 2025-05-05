@@ -123,31 +123,28 @@ export default function MainPage({ toggleSidebar }) {
           </div>
 
           {/* Sliders */}
-          <div className="mt-8 grid md:grid-cols-2 gap-6">
-            {[
-              { label: 'Effort of Estimation', value: eie, setter: setEie },
-              { label: 'Return On Investment', value: roi, setter: setRoi },
-            ].map(({ label, value, setter }) => (
-              <div key={label} className="bg-gray-100 p-4 rounded-lg">
-                <label className="block text-gray-700">
-                  {label} <span className="text-gray-500 text-sm">0–100</span>
-                </label>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={value}
-                  onChange={e => setter(+e.target.value)}
-                  className="w-full mt-2"
-                />
-                <p className="mt-1 text-gray-500 text-sm">
-                  {label.startsWith('Effort')
-                    ? `How much can you effort? (${value})`
-                    : `What's your expectation? (${value})`}
-                </p>
-              </div>
-            ))}
-          </div>
+          <div className="mt-8">
+  <label className="block text-gray-700 font-medium mb-2 text-center">
+    ROI vs EIE Preference
+  </label>
+  <div className="w-full px-2">
+    <input
+      type="range"
+      min="0"
+      max="100"
+      value={roi}
+      onChange={e => {
+        const newRoi = +e.target.value;
+        setRoi(newRoi);
+        setEie(100 - newRoi);
+      }}
+      className="w-full appearance-none bg-blue-200 h-2 rounded-full outline-none transition-all"
+    />
+    <div className="text-center text-sm text-gray-600 mt-2">
+      <strong>{roi}% ROI</strong> &nbsp;|&nbsp; <strong>{eie}% EIE</strong>
+    </div>
+  </div>
+</div>
 
           {/* BUNCH mode */}
           {mode === 'bunch' && (

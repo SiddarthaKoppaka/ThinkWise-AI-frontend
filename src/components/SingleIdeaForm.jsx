@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { IconLoader }     from '@tabler/icons-react'
 import { useAnalyzeSingle } from '../hooks/useAnalysis'
 import { useNavigate }      from 'react-router-dom'
+import {lookupIdeaByIdAndFilename} from '../api/ideaSevice'
 
 export default function SingleIdeaForm({ roi, eie }) {
   const [title, setTitle]         = useState('')
@@ -23,7 +24,7 @@ const handleSubmit = () => {
     {
       onSuccess: async ({ idea_id }) => {
         try {
-          const filename = 'single_submission.json' // Or whatever your backend assigns
+          const filename = 'Single' // Or whatever your backend assigns
           const result = await lookupIdeaByIdAndFilename(idea_id, filename)
           const mongoId = result.idea._id
 
