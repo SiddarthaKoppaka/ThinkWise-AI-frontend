@@ -13,42 +13,48 @@ export default function SingleIdeaForm({ roi, eie }) {
   const navigate = useNavigate()
   const mutation = useAnalyzeSingle()
 
-const handleSubmit = () => {
-  if (!title || !description) {
-    return alert('Title and description are required')
-  }
-
-  const idea = { title, author, category, description }
-  mutation.mutate(
-    { idea, roiWeight: roi/100, eieWeight: eie/100 },
-    {
-      onSuccess: async ({ idea_id }) => {
-        try {
-          const filename = 'Single' // Or whatever your backend assigns
-          const result = await lookupIdeaByIdAndFilename(idea_id, filename)
-          const mongoId = result.idea._id
-          console.log(result)
-          navigate(`/app/ideas/${mongoId}`, {
-            state: {
-              idea: {
-                ...result.idea,
-                roi: Math.round(roi),
-                eie: Math.round(eie),
-              }
-            }
-          })
-        } catch (err) {
-          console.error(err)
-          alert("Failed to lookup idea by idea_id and filename")
-        }
-      },
-      onError: err => {
-        console.error(err)
-        alert(`Analysis failed: ${err.response?.data?.detail || err.message}`)
-      }
+  const handleSubmit = () => {
+    if (!title || !description) {
+      return alert('Title and description are required');
     }
-  )
-}
+  
+    const idea = { title, author, category, description };
+    mutation.mutate(
+      { idea, roiWeight: roi / 100, eieWeight: eie / 100 },
+      {
+        onSuccess: async ({ idea_id }) => {
+          try {
+            const allIdeas = await fetchAllIdeas();  // get all ideas
+            const match = allIdeas.find(idea =>
+              idea.idea_id === idea_id && idea.filename === 'Single'
+            );
+  
+            if (!match) {
+              throw new Error("Idea not found in user ideas");
+            }
+  
+            const mongoId = match._id || match.id;
+            navigate(`/app/ideas/${mongoId}`, {
+              state: {
+                idea: {
+                  ...match,
+                  roi: Math.round(roi),
+                  eie: Math.round(eie),
+                }
+              }
+            });
+          } catch (err) {
+            console.error(err);
+            alert("Failed to find idea after submission");
+          }
+        },
+        onError: err => {
+          console.error(err);
+          alert(`Analysis failed: ${err.response?.data?.detail || err.message}`);
+        }
+      }
+    );
+  }
 
   const loading = mutation.isLoading
 

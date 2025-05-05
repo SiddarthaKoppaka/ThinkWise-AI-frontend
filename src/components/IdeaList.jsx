@@ -45,20 +45,20 @@ export default function IdeaList({ ideas, title }) {
                         bg-primary-100 text-primary-600
                         px-2 py-1 rounded-full text-sm
                       ">
-                      EIE: {(effort * 100).toFixed(1)}%
+                      EIE: {(effort * 100).toFixed(1)}
                     </span>
                     <span className="
                         bg-primary-100 text-primary-600
                         px-2 py-1 rounded-full text-sm
                       ">
-                      ROI: {(roi * 100).toFixed(1)}%
+                      ROI: {(roi * 100).toFixed(1)}
                     </span>
                   </div>
                 </div>
 
                 <div className="flex flex-col items-center justify-between h-full">
                   <div className="text-4xl font-bold text-primary-700">
-                  score: {(score * 100).toFixed(1)}%
+                  {(score * 100).toFixed(1)}
                   </div>
                   <Link
                     to={`/app/ideas/${id}`}
