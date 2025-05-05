@@ -57,3 +57,10 @@ export const fetchIdeaById = async (id) => {
   const { data } = await client.get(`/ideas/${id}`)
   return data.idea
 }
+
+export async function lookupIdeaByIdAndFilename(ideaId, filename) {
+  const res = await client.get('/ideas/lookup', {
+    params: { idea_id: ideaId, filename }
+  })
+  return res.data // contains { status, idea: { _id, ... } }
+}
