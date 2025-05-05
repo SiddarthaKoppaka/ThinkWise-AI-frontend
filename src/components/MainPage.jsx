@@ -123,11 +123,12 @@ export default function MainPage({ toggleSidebar }) {
           </div>
 
           {/* Sliders */}
-          <div className="mt-8">
-  <label className="block text-gray-700 font-medium mb-2 text-center">
-    ROI vs EIE Preference
-  </label>
-  <div className="w-full px-2">
+          <div className="mt-8 grid md:grid-cols-2 gap-6">
+  {/* ROI Slider */}
+  <div className="bg-gray-100 p-4 rounded-lg">
+    <label className="block text-gray-700">
+      Return On Investment <span className="text-gray-500 text-sm">(0–100)</span>
+    </label>
     <input
       type="range"
       min="0"
@@ -138,13 +139,36 @@ export default function MainPage({ toggleSidebar }) {
         setRoi(newRoi);
         setEie(100 - newRoi);
       }}
-      className="w-full appearance-none bg-blue-200 h-2 rounded-full outline-none transition-all"
+      className="w-full mt-2"
     />
-    <div className="text-center text-sm text-gray-600 mt-2">
-      <strong>{roi}% ROI</strong> &nbsp;|&nbsp; <strong>{eie}% EIE</strong>
-    </div>
+    <p className="mt-1 text-gray-500 text-sm">
+      Your expected ROI: {roi}%
+    </p>
+  </div>
+
+  {/* EIE Slider */}
+  <div className="bg-gray-100 p-4 rounded-lg">
+    <label className="block text-gray-700">
+      Effort of Estimation <span className="text-gray-500 text-sm">(0–100)</span>
+    </label>
+    <input
+      type="range"
+      min="0"
+      max="100"
+      value={eie}
+      onChange={e => {
+        const newEie = +e.target.value;
+        setEie(newEie);
+        setRoi(100 - newEie);
+      }}
+      className="w-full mt-2"
+    />
+    <p className="mt-1 text-gray-500 text-sm">
+      Estimated effort: {eie}%
+    </p>
   </div>
 </div>
+
 
           {/* BUNCH mode */}
           {mode === 'bunch' && (
