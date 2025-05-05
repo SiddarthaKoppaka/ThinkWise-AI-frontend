@@ -101,6 +101,12 @@ export default function IdeaChat() {
       </div>
 
       <div className="flex flex-col h-[90vh] w-full max-w-7xl mx-auto">
+      <div className="flex justify-between items-center mb-4">
+  <h2 className="text-2xl font-semibold text-gray-700">Idea Chat</h2>
+  <div className="text-sm font-medium text-blue-700 bg-blue-100 px-3 py-1 rounded-full shadow-sm">
+    Overall Score: {(idea.score * 100).toFixed(1)}%
+  </div>
+</div>
         <motion.div
           ref={scrollRef}
           className="flex-1 overflow-auto p-6 space-y-4 bg-white border border-gray-200 rounded-lg"

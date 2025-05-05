@@ -139,6 +139,14 @@ export default function AboutUs() {
 
   return (
     <section className="min-h-screen bg-gradient-to-br from-indigo-50 to-white flex flex-col items-center py-20 px-6">
+      <div className="w-full max-w-6xl mb-8 flex justify-between items-center">
+  <button
+    onClick={() => window.history.back()}
+    className="text-blue-600 font-medium hover:underline"
+  >
+    ← Back
+  </button>
+  </div>
       <div className="text-center mb-8 max-w-2xl">
         <h2 className="text-5xl font-extrabold text-gray-900">Meet Our Team</h2>
         <p className="mt-4 text-lg text-gray-600">
@@ -207,6 +215,36 @@ export default function AboutUs() {
           </div>
         ))}
       </div>
+      {/* Contact Form */}
+<div className="mt-16 w-full max-w-3xl text-center bg-white p-8 rounded-2xl shadow-lg">
+  <h3 className="text-2xl font-bold text-gray-800 mb-4">Contact Us</h3>
+  <p className="text-gray-600 mb-6">Have questions, suggestions, or want to collaborate? We’d love to hear from you.</p>
+  <form
+    action="https://formspree.io/f/xeogglay"  // <-- replace with your Formspree form ID
+    method="POST"
+    className="space-y-4"
+  >
+    <input
+      type="email"
+      name="email"
+      placeholder="Your email"
+      required
+      className="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <textarea
+      name="message"
+      placeholder="Your message"
+      required
+      className="w-full border border-gray-300 p-3 rounded-md h-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <button
+      type="submit"
+      className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
+    >
+      Send Message
+    </button>
+  </form>
+</div>
     </section>
   );
 }

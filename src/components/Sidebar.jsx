@@ -90,6 +90,17 @@ export default function Sidebar({ isOpen, toggle }) {
             <IconChartBar size={20} />
             {isOpen && <span className="ml-3">Analytics</span>}
           </NavLink>
+          <NavLink
+  to="/app/about"
+  className={({ isActive }) =>
+    `flex items-center py-2 rounded transition-colors hover:bg-gray-100 ${
+      isActive ? 'bg-primary-50 text-primary-600' : ''
+    } ${linkPadding}`
+  }
+>
+  <IconUserCircle size={20} />
+  {isOpen && <span className="ml-3">About Us</span>}
+</NavLink>
 
           <NavLink
   to="/app/settings"
