@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { IconLoader }     from '@tabler/icons-react'
 import { useAnalyzeSingle } from '../hooks/useAnalysis'
 import { useNavigate }      from 'react-router-dom'
-import {lookupIdeaByIdAndFilename} from '../api/ideaSevice'
+import {lookupIdeaByIdAndFilename} from '../api/ideaService'
 
 export default function SingleIdeaForm({ roi, eie }) {
   const [title, setTitle]         = useState('')
