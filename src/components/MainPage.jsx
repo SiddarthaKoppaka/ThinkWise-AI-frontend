@@ -37,6 +37,27 @@ export default function MainPage({ toggleSidebar }) {
 
   const navigate = useNavigate()
   const analyzeMutation = useAnalyzeCsv()
+  const loadingMessages = [
+    "Compiling idea brilliance…",
+    "Negotiating with AI agents…",
+    "Ranking ROI like a Wall Street pro…",
+    "Translating CSV into genius thoughts…",
+    "Counting how many ideas beat the boss’s…",
+    "Making ChatGPT jealous…",
+    "Building a startup in your spreadsheet…",
+    "Plotting effort vs. enlightenment…",
+  ];
+  
+  const [quoteIndex, setQuoteIndex] = useState(0);
+  
+  useEffect(() => {
+    if (analyzeMutation.isLoading) {
+      const interval = setInterval(() => {
+        setQuoteIndex((prev) => (prev + 1) % loadingMessages.length);
+      }, 2500); // change message every 2.5s
+      return () => clearInterval(interval);
+    }
+  }, [analyzeMutation.isLoading]);
 
   const handleAnalyze = () => {
     if (!file) {
@@ -210,23 +231,32 @@ export default function MainPage({ toggleSidebar }) {
               </label>
 
               <button
-                onClick={handleAnalyze}
-                disabled={analyzeMutation.isLoading}
-                className={`
-                  mt-6 w-full flex items-center justify-center
-                  py-3 rounded-lg font-medium transition
-                  ${analyzeMutation.isLoading
-                    ? 'bg-blue-400 text-white opacity-75 cursor-not-allowed'
-                    : 'bg-blue-600 text-white hover:bg-blue-700'}
-                `}
-              >
-                {analyzeMutation.isLoading
-                  ? <>
-                      <IconLoader className="animate-spin mr-2" />
-                      Analyzing…
-                    </>
-                  : 'Analyze CSV'}
-              </button>
+  onClick={handleAnalyze}
+  disabled={analyzeMutation.isLoading}
+  className={`
+    mt-6 w-full flex flex-col items-center justify-center
+    py-3 rounded-lg font-medium transition text-center
+    ${analyzeMutation.isLoading
+      ? 'bg-blue-400 text-white opacity-90 cursor-wait'
+      : 'bg-blue-600 text-white hover:bg-blue-700'}
+  `}
+>
+  {analyzeMutation.isLoading ? (
+    <>
+      <IconLoader className="animate-spin mb-1" />
+      <motion.span
+        key={quoteIndex}
+        initial={{ opacity: 0, y: 4 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -4 }}
+        transition={{ duration: 0.4 }}
+        className="text-sm font-medium"
+      >
+        {loadingMessages[quoteIndex]}
+      </motion.span>
+    </>
+  ) : 'Analyze CSV'}
+</button>
             </div>
             </>
           )}
