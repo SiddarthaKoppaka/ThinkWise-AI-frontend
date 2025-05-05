@@ -5,6 +5,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  font-family: 'Poppins', sans-serif;
+}
+
 /* 2. Global reset for range inputs (modern thumb + track) */
 input[type="range"] {
   @apply appearance-none w-full h-2 bg-gray-200 rounded-lg;

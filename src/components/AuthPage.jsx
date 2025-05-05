@@ -83,7 +83,16 @@ export default function AuthPage({ onAuth }) {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-grid-pattern font-sans">
+    <div className="h-screen w-full flex flex-col justify-center items-center bg-grid-pattern font-[Poppins] relative">
+  {/* ThinkWise Header */}
+  <div className="absolute top-10 text-center space-y-1">
+    <h1 className="text-3xl md:text-4xl font-bold text-primary-700 tracking-tight">
+      ThinkWise AI
+    </h1>
+    <p className="text-gray-600 text-sm md:text-base italic">
+      Think Wise, Choose Wise.
+    </p>
+  </div>
       <motion.div
         className="bg-white p-8 rounded-3xl shadow-lg w-full max-w-md"
         initial={{ scale:0.9, opacity:0 }}
