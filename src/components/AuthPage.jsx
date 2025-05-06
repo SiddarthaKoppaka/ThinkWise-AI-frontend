@@ -59,8 +59,12 @@ export default function AuthPage({ onAuth }) {
           email: form.email,
           password: form.password
         });
-        onAuth(user);
-        navigate('/app', { replace: true });
+        if (user && user.token) {
+          onAuth(user);
+          navigate('/app', { replace: true });
+        } else {
+          throw new Error('Invalid login credentials');
+        }
 
       } else if (mode === 'forgot') {
         await AuthService.forgotPassword({ email: form.email });
@@ -70,7 +74,7 @@ export default function AuthPage({ onAuth }) {
       const msg = err.response?.data?.detail
                 || err.response?.data?.message
                 || err.message
-                || 'Something went wrong';
+                || 'Login failed: Invalid credentials';
       setError(msg);
     } finally {
       setLoading(false);
