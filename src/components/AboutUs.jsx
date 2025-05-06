@@ -146,11 +146,36 @@ export default function AboutUs() {
   >
     ← Back
   </button>
+  <motion.div
+  initial={{ opacity: 0, y: 50 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8, type: 'spring' }}
+  viewport={{ once: true }}
+  className="w-full max-w-6xl mb-16 text-center"
+>
+  <h1 className="text-5xl font-bold text-gray-800 leading-tight">
+    Think Wise AI
+  </h1>
+  <p className="mt-6 text-lg text-gray-600 leading-relaxed">
+    Thinkwise isn’t just a productivity tool—it’s your strategic AI co-pilot.
+    Feed in one brilliant idea or a whole spreadsheet of them, and our intelligent agents go to work.
+    First, we estimate <strong>Effort of Implementation</strong> using tools that research real-world implementation challenges and timelines.
+    Then, we project <strong>Return on Investment</strong> by cross-referencing market data and similar use cases.
+  </p>
+  <p className="mt-4 text-gray-600 text-md">
+    Behind the scenes, AI agents collaborate—each one trained for a specific task like estimation, retrieval, and explanation. 
+    Together, they generate transparent scores with detailed reasoning. You can even <strong>chat with the system</strong> to explore how to implement your idea—no memory retained, just fresh insights every time 💬.
+  </p>
+  <p className="mt-4 italic text-blue-700 font-medium">
+    Whether you're a startup founder, product manager, or dreamer—Thinkwise helps you go from idea to impact faster.
+  </p>
+</motion.div>
+
   </div>
       <div className="text-center mb-8 max-w-2xl">
         <h2 className="text-5xl font-extrabold text-gray-900">Meet Our Team</h2>
         <p className="mt-4 text-lg text-gray-600">
-          Introducing our Idea Evaluator application—built during the Luddy Hackathon and enhanced for public release.
+          The Team that built ThinkWise AI application—built during the Luddy Hackathon and enhanced for public release.
         </p>
       </div>
 
