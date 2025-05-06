@@ -59,11 +59,9 @@ export default function AuthPage({ onAuth }) {
           email: form.email,
           password: form.password
         });
-        if (user && user.token) {
+        if (user) {
           onAuth(user);
           navigate('/app', { replace: true });
-        } else {
-          throw new Error('Invalid login credentials');
         }
 
       } else if (mode === 'forgot') {
