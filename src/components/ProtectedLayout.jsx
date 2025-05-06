@@ -7,7 +7,7 @@ export default function ProtectedLayout({ onLogout }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const toggleSidebar = () => setIsSidebarOpen(o => !o);
 
-  const { data: user, isLoading } = useCurrentUser();  // ✅ use isLoading
+  const { data: user, isLoading } = useCurrentUser();  // use isLoading
 
   const logoutMutation = useLogout();
 
@@ -19,7 +19,7 @@ export default function ProtectedLayout({ onLogout }) {
     });
   };
 
-  // ✅ Wait for loading, then redirect if not logged in
+  // Wait for loading, then redirect if not logged in
   if (isLoading) return <div className="p-8">Loading your workspace...</div>;
   if (!user) return <Navigate to="/auth" replace />;
 
