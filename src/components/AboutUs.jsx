@@ -171,8 +171,6 @@ export default function AboutUs() {
     Whether you're a startup founder, product manager, or dreamer—Thinkwise helps you go from idea to impact faster.
   </p>
 </motion.div>
-
-  </div>
       <div className="text-center mb-8 max-w-2xl">
         <h2 className="text-5xl font-extrabold text-gray-900">Meet Our Team</h2>
         <p className="mt-4 text-lg text-gray-600">
