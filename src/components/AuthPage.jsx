@@ -16,6 +16,11 @@ export default function AuthPage({ onAuth }) {
   const [error,   setError]   = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+  const isValidEmail = (email) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  
+  const isStrongPassword = (password) =>
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password);
 
   const [searchParams] = useSearchParams();
   useEffect(() => {
@@ -37,7 +42,19 @@ export default function AuthPage({ onAuth }) {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setError(''); setMessage(''); setLoading(true);
+  setError(''); setMessage(''); setLoading(true);
+
+  if (!isValidEmail(form.email)) {
+    setError("Please enter a valid email address (e.g., example@domain.com).");
+    setLoading(false);
+    return;
+  }
+
+  if ((mode === 'register' || mode === 'login') && !isStrongPassword(form.password)) {
+    setError("Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.");
+    setLoading(false);
+    return;
+  }
 
     try {
       if (mode === 'login') {
@@ -141,6 +158,7 @@ export default function AuthPage({ onAuth }) {
           />
 
           {(mode === 'login' || mode === 'register') && (
+            <div>
             <input
               name="password"
               type="password"
@@ -150,6 +168,12 @@ export default function AuthPage({ onAuth }) {
               className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none"
               required
             />
+            {mode === 'register' && (
+              <p className="text-xs text-gray-500 mt-1">
+                Must be at least 8 characters with uppercase, lowercase, number, and special character.
+              </p>
+            )}
+          </div>
           )}
 
           <motion.button
