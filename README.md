@@ -2,13 +2,14 @@
 
 Welcome to the frontend of **ThinkWise AI** – an AI-powered platform to evaluate and prioritize your business ideas based on estimated ROI and implementation effort.
 
-![ThinkWise AI Demo](demo-screenshot.png)
+![ThinkWise AI Demo](![image](https://github.com/user-attachments/assets/9057e5f5-e7f4-4a68-99a6-f77e5010232e)
+)
 
 ---
 
 ## 🌐 Live Demo
 
-👉 [Try it Live](https://your-deployment-url.com)
+👉 [Try it Live](https://thinkwiseai.vercel.app/)
 
 ---
 
