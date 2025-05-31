@@ -37,7 +37,7 @@ Welcome to the frontend of **ThinkWise AI** – an AI-powered platform to evalua
 ## 🚀 Getting Started
 
 ```bash
-git clone https://github.com/your-username/thinkwise-frontend.git
+git clone https://github.com/SiddarthaKoppaka/ThinkWise-AI-frontend.git
 cd thinkwise-frontend
 npm install
 npm run dev
