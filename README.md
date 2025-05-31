@@ -2,8 +2,9 @@
 
 Welcome to the frontend of **ThinkWise AI** – an AI-powered platform to evaluate and prioritize your business ideas based on estimated ROI and implementation effort.
 
-![ThinkWise AI Demo](![image](https://github.com/user-attachments/assets/9057e5f5-e7f4-4a68-99a6-f77e5010232e)
-)
+
+![image](https://github.com/user-attachments/assets/d13708f2-192d-46f4-88dc-3d9d5b15f13e)
+
 
 ---
 
